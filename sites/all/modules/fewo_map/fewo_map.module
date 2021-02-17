@@ -1,0 +1,56 @@
+<?php
+
+    function fewo_map_preprocess_html(&$variables, $hook)
+     {
+
+ $url=$_GET['q'];
+
+
+		 if (strpos($_SERVER['REQUEST_URI'],'/explore') !== false)
+       {
+
+          drupal_add_css(drupal_get_path('module', 'fewo_map') . '/js/leaflet/leaflet.css');
+          drupal_add_js(drupal_get_path('module', 'fewo_map') . '/js/leaflet/leaflet.js');
+
+
+          // ADD MAP
+          drupal_add_js(drupal_get_path('module', 'fewo_map') . '/js/explore/explore.js');
+
+
+       }
+       if (strpos($_SERVER['REQUEST_URI'],'/explore/') !== false)
+          {
+
+             drupal_add_css(drupal_get_path('module', 'fewo_map') . '/js/leaflet/leaflet.css');
+             drupal_add_js(drupal_get_path('module', 'fewo_map') . '/js/leaflet/leaflet.js');
+
+
+             // ADD MAP
+             drupal_add_js(drupal_get_path('module', 'fewo_map') . '/js/explore/explore.js');
+
+
+          }
+          if (strpos($_SERVER['REQUEST_URI'],'/topic') !== false)
+             {
+                drupal_add_css(drupal_get_path('module', 'fewo_map') . '/js/topic/topic.css');
+                drupal_add_css(drupal_get_path('module', 'fewo_map') . '/js/topic/materialized.css');
+                drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js', 'external');
+                drupal_add_css('https://fonts.googleapis.com/css?family=Montserrat&display', 'external');
+                drupal_add_css('https://fonts.googleapis.com/icon?family=Material+Icons', 'external');
+             }
+             if (strpos($_SERVER['REQUEST_URI'],'/sdgs') !== false)
+                {
+                   drupal_add_css(drupal_get_path('module', 'fewo_map') . '/js/topic/topic.css');
+                   drupal_add_css(drupal_get_path('module', 'fewo_map') . '/js/topic/materialized.css');
+                   drupal_add_js('https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js', 'external');
+                   drupal_add_css('https://fonts.googleapis.com/css?family=Montserrat&display', 'external');
+                   drupal_add_css('https://fonts.googleapis.com/icon?family=Material+Icons', 'external');
+                }
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+}

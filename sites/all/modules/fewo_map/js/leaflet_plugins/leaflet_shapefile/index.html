@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset='utf-8' />
+	<title>
+		Preview
+	</title>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+	<!--[if lte IE 8]>
+			<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+		<![endif]-->
+	<style>
+		html {
+			height: 100%
+		}
+
+		body {
+			height: 100%;
+			margin: 0;
+			padding: 0;
+		}
+
+		#map {
+			height: 100%
+		}
+	</style>
+	<link rel="stylesheet" href="gh-pages.css" />
+</head>
+
+<body>
+	<div id="dropbox">
+			<span class="message">Drop images here to upload. <br /><i>(they will only be visible to you)</i></span>
+		</div>
+
+	<div id="map"></div>
+	<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="./jquery_upload/js/vendor/jquery.ui.widget.js"></script>
+
+	<script src="catiline.js"></script>
+	<script src="leaflet.shpfile.js"></script>
+	
+
+		<script src="assets/js/jquery.filedrop.js"></script>
+		
+		<!-- The main script file -->
+        <script src="assets/js/script.js"></script>
+
+	
+	<script>
+		var m = L.map('map').setView([42.09618442380296, -71.5045166015625], 8);
+		var watercolor = L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+			attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+		}).addTo(m);
+
+
+
+
+function create_shp()
+{
+
+
+		var shpfile = new L.Shapefile('congress.zip', {
+			onEachFeature: function(feature, layer) {
+				if (feature.properties) {
+					layer.bindPopup(Object.keys(feature.properties).map(function(k) {
+						return k + ": " + feature.properties[k];
+					}).join("<br />"), {
+						maxHeight: 200
+					});
+				}
+			}
+		});
+
+		shpfile.addTo(m);
+		shpfile.once("data:loaded", function() {
+			console.log("finished loaded shapefile");
+		});
+	}
+	$('#map').click(function ()
+	{
+		create_shp();
+	})
+	</script>
+</body>
+
+</html>

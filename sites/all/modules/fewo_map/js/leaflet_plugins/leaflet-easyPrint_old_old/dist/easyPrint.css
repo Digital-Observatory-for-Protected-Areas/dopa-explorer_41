@@ -1,0 +1,146 @@
+.leaflet-control-easyPrint a {
+  background:#fff url(print.png) no-repeat 5px;
+  background-size:16px 16px;
+  display: block;
+  }
+
+._epHidden{display:none!important;}
+
+
+@media print {
+	html {padding: 0px!important;}
+	.leaflet-control-easyPrint-button{display: none!important;}
+
+
+  a[href]:after {
+  content:"" !important;
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  WDPA css
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  #container2 {
+  float: left;
+  margin-top: -170px;
+  position: relative;;
+  z-index: 999;
+  -webkit-print-color-adjust: exact;
+  margin-bottom: 100px!important;
+  }
+  #container2 > p {
+  margin-bottom: 5px!important;
+  }
+  /*spider graph*/
+  #container3 {
+  float: right;
+  position: relative;
+  z-index: 999999;
+  margin-bottom: 30px;
+  -webkit-print-color-adjust: exact;
+  margin-top: 120px!important;
+  }
+  /*wdpa name*/
+  #container8 {
+  margin-bottom: 200px!important;
+  margin-top: 50px!important;
+  position: relative;
+  font-size: 28px;
+  height: 50px!important;
+  background-color: #22a6f5 !important;
+  -webkit-print-color-adjust: exact;
+  padding-left: 10px!important;
+  padding-right: 10px!important;
+  min-width: 1300px!important;
+  max-width: 1300px!important;
+  }
+  #container8 > center {
+  float: left!important;
+  padding: 3px!important;
+  }
+  /*wdpa name*/
+  #container8 > center > a {
+  color: white!important;
+  -webkit-print-color-adjust: exact;
+  text-decoration: none;
+  color: -webkit-link;
+  margin-left: 0px!important;
+  }
+  .generalinfo{
+  margin-top: 10px!important;
+  position: relative!important;
+  float: left!important;
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  region css
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  /*REGION name*/
+  #container15 {
+  margin-bottom: 200px!important;
+  margin-top: 50px!important;
+  position: relative;
+  font-size: 28px;
+  height: 50px!important;
+  background-color: #22a6f5 !important;
+  -webkit-print-color-adjust: exact;
+  padding-left: 10px!important;
+  padding-right: 10px!important;
+  min-width: 1300px!important;
+  max-width: 1300px!important;
+  }
+  #container15 > center {
+  float: left!important;
+  padding: 3px!important;
+  }
+  #container15 > center > a {
+  color: white!important;
+  -webkit-print-color-adjust: exact;
+  text-decoration: none;
+  color: -webkit-link;
+  margin-left: 0px!important;
+
+  }
+  /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  ecoregion css
+  -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+  #container5 > center > a {
+  color: white!important;
+  background-color: black!important
+  font-weight: bold;
+  }
+  #container4 {
+  margin-bottom: 200px!important;
+  margin-top: 50px!important;
+  position: relative;
+  font-size: 28px;
+  -webkit-print-color-adjust: exact;
+  padding-left: 10px!important;
+  padding-right: 10px!important;
+  }
+  #container24 {
+  float: right;!important;
+  margin-bottom: 200px!important;
+  margin-top: -600px!important;
+  position: relative;
+  font-size: 28px;
+  -webkit-print-color-adjust: exact;
+  padding-left: 10px!important;
+  padding-right: 10px!important;
+  }
+  #container6 {
+  margin-bottom: 200px!important;
+  margin-top: -300px!important;
+  position: relative;
+  -webkit-print-color-adjust: exact;
+  padding-left: 10px!important;
+  padding-right: 10px!important;
+  }
+  #container7 {
+  margin-bottom: 200px!important;
+  margin-top: -190px!important;
+  position: relative;
+  -webkit-print-color-adjust: exact;
+  padding-left: 10px!important;
+  padding-right: 10px!important;
+  }
+
+
+}

@@ -1,0 +1,12 @@
+name = Views Aggregator Plus More Functions
+description = Adds more aggregation functions for Views Aggregator Plus
+package = Views
+dependencies[] = views_aggregator
+core = 7.x
+
+; Information added by Drupal.org packaging script on 2015-03-28
+version = "7.x-1.4+3-dev"
+core = "7.x"
+project = "views_aggregator"
+datestamp = "1427585582"
+

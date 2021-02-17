@@ -1,0 +1,53 @@
+
+.quicktabs_main.quicktabs-style-basic{
+    background-color: #fff;
+    border: 1px solid #fff;
+    border-top: none;
+    padding: 10px;
+    clear: both;
+
+}
+ul.quicktabs-tabs.quicktabs-style-basic{
+  padding: 0 0px 0 0;
+  font: bold 12px/19px Verdana !important;
+  font-weight: bold;
+  height: 21px;
+  margin: 0;
+}
+ul.quicktabs-tabs.quicktabs-style-basic a{
+  font: small-caption;
+  text-decoration: none;
+  color: #032d3b;
+  font-size: 16px;
+  text-transform: capitalize;
+}
+ul.quicktabs-tabs.quicktabs-style-basic a:hover{
+  color:#555;
+}
+ul.quicktabs-tabs.quicktabs-style-basic li{
+    /* border: 1px solid #ffffff; */
+    border-bottom: none;
+    padding: 2px 5px;
+    margin: 0 3px 0 0;
+    position: relative;
+    /* background-color: aqua; */
+}
+ul.quicktabs-tabs.quicktabs-style-basic li:hover{
+  border:0px solid #ccc;
+  border-bottom:none;
+}
+ul.quicktabs-tabs.quicktabs-style-basic li.active{
+  border: 0px solid #ffffff;
+  border-bottom: 2px solid #eeaa10;
+  /* background-color: #e5a30f; */
+  padding-top: 7px;
+  /* -webkit-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15); */
+  -moz-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.15);
+  /* box-shadow: 0px -2px 3px -1px rgba(0, 0, 0, 0.15); */
+  /* color: azure; */
+  padding-bottom: 8px;
+}
+ul.quicktabs-tabs.quicktabs-style-basic li.active a{
+  color: #032d3b;
+  text-transform: capitalize;
+}

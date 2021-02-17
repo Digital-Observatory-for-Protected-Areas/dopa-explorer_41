@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * Implements hook_views_api()
+ */
+function views_simplechart_views_api() {
+  return array(
+    'api' => '3.0'
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function views_simplechart_theme(){
+  return array(
+    'views_simplechart_graph' => array(
+      'template' => 'views-simplechart-graph',
+      'variables' => array(
+        'barchart' => NULL
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_html_head_alter().
+ */
+function views_simplechart_html_head_alter(&$head_elements) {
+  drupal_add_js('https://www.gstatic.com/charts/loader.js', 'external');
+  drupal_add_js('jQuery(document).ready(function () { google.charts.load(\'current\', {\'packages\':[\'corechart\',\'timeline\',\'orgchart\']}); });', 'inline');
+}

@@ -1,0 +1,343 @@
+<?php
+/**
+ * @file
+ * "Leaflet Plugins" adds maps with the serviec API to leaflet.
+ */
+
+/**
+ * Implements hook_libraries_info().
+ */
+function leaflet_plugins_libraries_info() {
+  $libraries['leaflet-plugins'] = array(
+    'name' => 'Leaflet Plugins JavaScript Library',
+    'vendor url' => 'https://github.com/shramov/leaflet-plugins',
+    'download url' => 'https://github.com/shramov/leaflet-plugins/archive/master.zip',
+    'version arguments' => array(
+      'file' => 'package.json',
+      'pattern' => '/"version":\s+"([\d+\.]*\d+)"/',
+    ),
+    'dependencies' => array('leaflet'),
+  );
+  return $libraries;
+}
+
+/**
+ * Implements hook_library().
+ */
+function leaflet_plugins_library() {
+  // Use the enhanced capabilities of the libraries module to feed to other
+  // library configurations.
+  $library = libraries_detect('leaflet-plugins');
+  $group = JS_DEFAULT;
+  $weight = 2;
+
+  $settings = variable_get('leaflet_plugins_settings', array());
+
+  $module_path = drupal_get_path('module', 'leaflet_plugins');
+  $libraries['leaflet-plugins'] = array(
+    'title' => 'Leaflet Plugins JavaScript Library: Google',
+    'version' => $library['version'],
+    'js' => array(
+      $module_path . '/leaflet_plugins.js' => array(
+        'type' => 'file',
+        'group' => $group,
+        'weight' => $weight,
+      ),
+    ),
+  );
+
+  $google_maps_script = '//maps.google.com/maps/api/js?v=3&language=' . $GLOBALS['language']->language . '&';
+  $google_maps_script .= 'sensor=' . (empty($settings['google']['sensor']) ? 'false' : 'true') . '&';
+  if (!empty($settings['google']['key'])) {
+    $google_maps_script .= 'key=' . $settings['google']['key'] . '&';
+  }
+  if (!empty($settings['google']['client'])) {
+    $google_maps_script .= 'client=' . $settings['google']['client'] . '&';
+  }
+  if (!empty($settings['google']['channel'])) {
+    $google_maps_script .= 'channel=' . $settings['google']['channel'] . '&';
+  }
+
+  $libraries['leaflet-plugins-google'] = array(
+    'title' => 'Leaflet Plugins JavaScript Library: Google',
+    'version' => $library['version'],
+    'js' => array(
+      $google_maps_script => array(
+        'type' => 'external',
+        'group' => $group,
+        'weight' => $weight - 1,
+      ),
+      $library['library path'] . '/layer/tile/Google.js' => array(
+        'type' => 'file',
+        'group' => $group,
+        'weight' => $weight,
+      ),
+    ),
+    'dependencies' => array(array('leaflet_plugins', 'leaflet-plugins')),
+  );
+  $libraries['leaflet-plugins-bing'] = array(
+    'title' => 'Leaflet Plugins JavaScript Library: Bing',
+    'version' => $library['version'],
+    'js' => array(
+      $library['library path'] . '/layer/tile/Bing.js' => array(
+        'type' => 'file',
+        'group' => $group,
+        'weight' => $weight,
+      ),
+    ),
+    'dependencies' => array(array('leaflet_plugins', 'leaflet-plugins')),
+  );
+  $libraries['leaflet-plugins-yandex'] = array(
+    'title' => 'Leaflet Plugins JavaScript Library: Yandex',
+    'version' => $library['version'],
+    'js' => array(
+      '//api-maps.yandex.ru/2.0/?load=package.map&lang=' . $GLOBALS['language']->language => array(
+        'type' => 'external',
+        'group' => $group,
+        'weight' => $weight - 1,
+      ),
+      $library['library path'] . '/layer/tile/Yandex.js' => array(
+        'type' => 'file',
+        'group' => $group,
+        'weight' => $weight,
+      ),
+    ),
+    'dependencies' => array(array('leaflet_plugins', 'leaflet-plugins')),
+  );
+  $libraries['leaflet-plugins-permalink'] = array(
+    'title' => 'Leaflet Plugins JavaScript Library: Permalink Control',
+    'version' => $library['version'],
+    'js' => array(
+      $library['library path'] . '/control/Permalink.js' => array(
+        'type' => 'file',
+        'group' => $group,
+        'weight' => $weight,
+      ),
+      $library['library path'] . '/control/Permalink.Marker.js' => array(
+        'type' => 'file',
+        'group' => $group,
+        'weight' => $weight,
+      ),
+      $library['library path'] . '/control/Permalink.Line.js' => array(
+        'type' => 'file',
+        'group' => $group,
+        'weight' => $weight,
+      ),
+    ),
+    'dependencies' => array(array('leaflet_plugins', 'leaflet-plugins')),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Implements hook_leaflet_map_info().
+ *
+ * All maps show at lat=31, long=-89, zoom=4
+ */
+function leaflet_plugins_leaflet_map_info() {
+  $map_info = array();
+  $default_settings = array(
+    'attributionControl' => TRUE,
+    'closePopupOnClick'  => TRUE,
+    'doubleClickZoom'    => TRUE,
+    'dragging'           => TRUE,
+    'fadeAnimation'      => TRUE,
+    'layerControl'       => FALSE,
+    'maxZoom'            => 18,
+    'minZoom'            => 0,
+    'scrollWheelZoom'    => TRUE,
+    'touchZoom'          => TRUE,
+    'trackResize'        => TRUE,
+    // Don't specify, if you want to use Auto-box.
+    // 'zoom'               =>  2,
+    'zoomAnimation'      => TRUE,
+    'zoomControl'        => TRUE,
+  );
+
+  // Provide google maps using the official API v3.
+  $map_info['google-api-high-res'] = array(
+    'label' => 'Google API: high-res road & terrain (zoom 0..18)',
+    'description' => t('Google API: Road & terrain layers, with high-res (Retina) support'),
+    'settings' => array(
+      'layerControl' => TRUE,
+      'permalink' => array(
+        'text' => 'Permalink',
+      ),
+    ) + $default_settings,
+    'layers' => array(
+      'Terrain' => array(
+        'urlTemplate' => FALSE,
+        'type' => 'api-google',
+        'map_type' => 'TERRAIN',
+        'options' => array(),
+      ),
+      'Roadmap' => array(
+        'urlTemplate' => FALSE,
+        'type' => 'api-google',
+        'map_type' => 'ROADMAP',
+        'options' => array(),
+      ),
+    ),
+  );
+
+  // Provide bing maps using the official API.
+  $map_info['bing-api'] = array(
+    'label' => 'Bing API: road & satellite & hybrid (zoom 1..18)',
+    'description' => t('Bing API: road, satellite and hybrid layers'),
+    'settings' => array(
+      'minZoom' => 1,
+      'layerControl' => TRUE,
+      'permalink' => array(
+        'text' => 'Permalink',
+      ),
+    ) + $default_settings,
+    'layers' => array(
+      'Aerial' => array(
+        'urlTemplate' => FALSE,
+        'type' => 'api-bing',
+        'key' => '',
+        'map_type' => 'Aerial',
+        'options' => array(),
+      ),
+      'Birdseye' => array(
+        'urlTemplate' => FALSE,
+        'type' => 'api-bing',
+        'key' => '',
+        'map_type' => 'Birdseye',
+        'options' => array(),
+      ),
+      'road layer' => array(
+        'urlTemplate' => FALSE,
+        'type' => 'api-bing',
+        'key' => '',
+        'map_type' => 'Road',
+        'options' => array(),
+      ),
+    ),
+  );
+
+  // Provide yandex maps using the official API.
+  $map_info['api-yandex'] = array(
+    'label' => 'Yandex API: Maps (zoom 0..7 in many areas)',
+    'description' => t('Yandex roadmap'),
+    'settings' => array(
+      'layerControl' => TRUE,
+      'permalink' => array(
+        'text' => 'Permalink',
+      ),
+    ) + $default_settings,
+    'layers' => array(
+      'satellite layer' => array(
+        'urlTemplate' => FALSE,
+        'map_type' => 'satellite',
+        'options' => array(),
+      ),
+      'road layer' => array(
+        'urlTemplate' => FALSE,
+        'map_type' => 'map',
+        'options' => array(),
+      ),
+      'hybrid layer' => array(
+        'urlTemplate' => FALSE,
+        'map_type' => 'hybrid',
+        'options' => array(),
+      ),
+    ),
+  );
+  return $map_info;
+}
+
+/**
+ * Implements hook_leaflet_map_prebuild_alter().
+ */
+function leaflet_plugins_leaflet_map_prebuild_alter(&$variables = NULL) {
+  $load = FALSE;
+  // See if a feature of this module is requested and add the JS accordingly.
+  foreach ($variables['map']['layers'] as $layer) {
+    if (isset($layer['type']) && strpos($layer['type'], 'api-') === 0) {
+      drupal_add_library('leaflet_plugins', 'leaflet-plugins-' . substr($layer['type'], 4));
+      $load = TRUE;
+    }
+  }
+  // Add other plugin features.
+  foreach ($variables['map']['settings'] as $feature => $options) {
+    switch ($feature) {
+      case 'permalink':
+        drupal_add_library('leaflet_plugins', 'leaflet-plugins-permalink');
+        $load = TRUE;
+        break;
+    }
+  }
+
+  // Ensure the integration js file is loaded as well.
+  if ($load) {
+    drupal_add_library('leaflet_plugins', 'leaflet-plugins');
+  }
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function leaflet_plugins_menu() {
+  $items = array();
+  // Put the administrative settings under System on the Configuration page.
+  $items['admin/config/system/leaflet_plugins'] = array(
+    'title' => 'Leaflet Plugins Settings',
+    'description' => 'Configure leaflet plugins.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('leaflet_plugins_config_form'),
+    'access arguments' => array('administer site configuration'),
+  );
+  return $items;
+}
+
+
+/**
+ * Configure leaflet plugins.
+ */
+function leaflet_plugins_config_form($form, &$form_state) {
+
+  $settings = variable_get('leaflet_plugins_settings', array());
+
+  $form['leaflet_plugins_settings'] = array(
+    '#type' => 'item',
+    '#collapsible' => FALSE,
+    '#title' => t('Leaflet Plugin Settings'),
+    '#tree' => TRUE,
+  );
+
+  // Google Maps specific settings.
+  $form['leaflet_plugins_settings']['google'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#title' => t('Google maps specific settings'),
+  );
+  $form['leaflet_plugins_settings']['google']['key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('<a href="@url" target="google">Google API key</a>', array('@url' => 'https://developers.google.com/maps/documentation/javascript/tutorial#api_key')),
+    '#default_value' => !empty($settings['google']['key']) ? $settings['google']['key'] : NULL,
+    '#description' => t('The <a href="@url" target="google">Google</a> API key to use', array('@url' => 'https://developers.google.com/maps/documentation/javascript/tutorial#api_key')),
+  );
+  $form['leaflet_plugins_settings']['google']['client'] = array(
+    '#type' => 'textfield',
+    '#title' => t('<a href="@url" target="google">Google Client ID</a>', array('@url' => 'https://developers.google.com/maps/documentation/business/guide?#Signup')),
+    '#default_value' => !empty($settings['google']['client']) ? $settings['google']['client'] : NULL,
+    '#description' => t('The <a href="@url" target="google">Google</a> client id to use', array('@url' => 'https://developers.google.com/maps/documentation/business/guide?#Signup')),
+  );
+  $form['leaflet_plugins_settings']['google']['channel'] = array(
+    '#type' => 'textfield',
+    '#title' => t('<a href="@url" target="google">Google Channel</a>', array('@url' => 'https://developers.google.com/maps/documentation/business/guide?#AppUsage')),
+    '#default_value' => !empty($settings['google']['channel']) ? $settings['google']['channel'] : NULL,
+    '#description' => t('Used for application specific tracking', array('@url' => 'https://developers.google.com/maps/documentation/business/guide?#AppUsage')),
+  );
+  $form['leaflet_plugins_settings']['google']['sensor'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use user location if possible'),
+    '#default_value' => !empty($settings['google']['sensor']),
+  );
+
+  // Use the systems settings form to handle the storage.
+  return system_settings_form($form);
+}

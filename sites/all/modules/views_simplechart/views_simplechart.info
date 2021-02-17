@@ -1,0 +1,11 @@
+name = Simple Chart
+description = Simple visualization based on google api
+core = 7.x
+dependencies[] = views
+files[] = plugins/views_simplechart_plugin_style.inc
+; Information added by Drupal.org packaging script on 2016-11-23
+version = "7.x-1.1"
+core = "7.x"
+project = "views_simplechart"
+datestamp = "1479888543"
+

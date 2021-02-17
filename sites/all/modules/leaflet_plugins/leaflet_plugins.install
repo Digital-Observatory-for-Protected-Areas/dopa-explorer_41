@@ -1,0 +1,45 @@
+<?php
+/**
+ * @file
+ * "Leaflet Plugins" adds maps with the serviec API to leaflet.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function leaflet_plugins_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  // Verify that the library is installed correctly.
+  if (in_array($phase, array('runtime', 'update'))) {
+    $library = libraries_detect('leaflet-plugins');
+    $requirements['leaflet-plugins'] = array(
+      'title' => $t('Leaflet Plugins'),
+    );
+
+    if ($library['installed']) {
+      $requirements['leaflet-plugins'] += array(
+        'value' => $library['version'],
+        'description' => $t('The Leaflet Plugins Javascript library is installed correctly'),
+        'severity' => REQUIREMENT_OK,
+      );
+    }
+    else {
+      $requirements['leaflet-plugins'] += array(
+        'value' => $library['error'],
+        'description' => $library['error message'],
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function leaflet_plugins_uninstall() {
+  variable_del('leaflet_plugins_settings');
+}

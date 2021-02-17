@@ -1,0 +1,70 @@
+.leaflet-control-layers {
+	width: 100%;
+    padding: 19px !important;
+}
+
+.leaflet-control-layers-separator {
+	float: left;
+    width: 100%;
+}
+
+.leaflet-control-layers .leaflet-control-layers-title {
+    font-size: 14PX;
+    MARGIN-LEFT: -19PX;
+    MARGIN-BOTTOM: 0px;
+    FONT-WEIGHT: 500;
+    COLOR: #ffffff;
+    background-color: #156d8d;
+    padding-bottom: -11px;
+    margin-top: -18px;
+    padding-top: 10px;
+    padding-left: 10px;
+    width: 264px;
+}
+
+.leaflet-control-layers .leaflet-row {
+    float: left;
+    width: 108%;
+    /* border-bottom: 2px solid #ffffff; */
+    margin-bottom: 10px;
+    background-color: rgba(255, 255, 255, 0.68);
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    BORDER-RADIUS: 6PX;
+    margin-left: -9px;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-input {
+	float: left;
+	width: 12%;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-name {
+float: left;
+    width: 77%;
+    FONT-VARIANT: small-caps;
+    COLOR: #484848;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-up {
+float: right;
+    background-image: url(../images/arrow-up.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 20px;
+    width: 15px;
+    opacity: 0.4;
+    cursor: pointer;
+}
+
+.leaflet-control-layers .leaflet-row .leaflet-down {
+    float: right;
+    background-image: url(../images/arrow-down.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 16px;
+    width: 16px;
+    opacity: 0.75;
+    cursor: pointer;
+}

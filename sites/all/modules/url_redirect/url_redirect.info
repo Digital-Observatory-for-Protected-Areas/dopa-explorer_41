@@ -1,0 +1,13 @@
+name = URL Redirect
+description = Redirect User / Role for specific menu item.
+package = Other
+core = 7.x
+configure = admin/config/url_redirect
+permissions = admin/people/permissions#edit-access-url-redirect-settings-page
+
+; Information added by Drupal.org packaging script on 2016-07-27
+version = "7.x-1.2"
+core = "7.x"
+project = "url_redirect"
+datestamp = "1469622244"
+
